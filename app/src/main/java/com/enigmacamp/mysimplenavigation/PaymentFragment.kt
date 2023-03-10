@@ -1,12 +1,16 @@
 package com.enigmacamp.mysimplenavigation
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.EditText
 import androidx.navigation.Navigation
+import androidx.navigation.findNavController
+import com.enigmacamp.mysimplenavigation.NavGraphDirections.ActionGlobalNotificationDialogFragment
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -42,8 +46,29 @@ class PaymentFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val btnPay = view.findViewById<Button>(R.id.btn_pay)
+        val etUserId = view.findViewById<EditText>(R.id.et_userid)
+        view.findNavController().currentBackStackEntry?.savedStateHandle?.getLiveData<Boolean>("isAuth")
+            ?.observe(viewLifecycleOwner) {
+                if (it) {
+                    Log.d("Payment-Fragment", "Success")
+                    val success =
+                        NotificationDialogFragmentDirections.actionGlobalNotificationDialogFragment(
+                            "Success"
+                        )
+                    Navigation.findNavController(view).navigate(success)
+                } else {
+                    Log.d("Payment-Fragment", "Failed")
+                    val failed =
+                        NotificationDialogFragmentDirections.actionGlobalNotificationDialogFragment(
+                            "Failed"
+                        )
+                    Navigation.findNavController(view).navigate(failed)
+                }
+            }
         btnPay.setOnClickListener {
-            Navigation.findNavController(view).navigate(R.id.action_paymentFragment_to_pinFragment)
+            val direction =
+                PaymentFragmentDirections.actionPaymentFragmentToPinFragment(etUserId.text.toString())
+            Navigation.findNavController(view).navigate(direction)
         }
     }
 

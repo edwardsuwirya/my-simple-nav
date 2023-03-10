@@ -43,7 +43,13 @@ class LoginFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         val btnLogin = view.findViewById<Button>(R.id.btn_login)
         btnLogin.setOnClickListener {
-            Navigation.findNavController(view).navigate(R.id.action_loginFragment_to_homeFragment)
+            val direction = LoginFragmentDirections.actionLoginFragmentToHomeFragment(
+                UserProfile(
+                    "123",
+                    "Markitul"
+                )
+            )
+            Navigation.findNavController(view).navigate(direction)
         }
     }
 

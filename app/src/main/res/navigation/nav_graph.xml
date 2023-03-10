@@ -30,6 +30,9 @@
         <action
             android:id="@+id/action_homeFragment_to_paymentFragment"
             app:destination="@id/paymentFragment" />
+        <argument
+            android:name="userProfile"
+            app:argType="com.enigmacamp.mysimplenavigation.UserProfile" />
     </fragment>
     <fragment
         android:id="@+id/splashFragment2"
@@ -71,15 +74,17 @@
         android:name="com.enigmacamp.mysimplenavigation.PinFragment"
         android:label="fragment_pin"
         tools:layout="@layout/fragment_pin" >
-        <action
-            android:id="@+id/action_pinFragment_to_paymentStatusFragment"
-            app:destination="@id/paymentStatusFragment"
-            app:popUpTo="@id/paymentFragment"
-            app:popUpToInclusive="true" />
+        <argument
+            android:name="userId"
+            app:argType="string" />
     </fragment>
-    <fragment
-        android:id="@+id/paymentStatusFragment"
-        android:name="com.enigmacamp.mysimplenavigation.PaymentStatusFragment"
-        android:label="fragment_payment_status"
-        tools:layout="@layout/fragment_payment_status" />
+    <dialog
+        android:id="@+id/notificationDialogFragment"
+        android:name="com.enigmacamp.mysimplenavigation.NotificationDialogFragment"
+        android:label="fragment_notification_dialog"
+        tools:layout="@layout/fragment_notification_dialog" >
+        <argument
+            android:name="message"
+            app:argType="string" />
+    </dialog><action android:id="@+id/action_global_notificationDialogFragment" app:destination="@id/notificationDialogFragment"/>
 </navigation>

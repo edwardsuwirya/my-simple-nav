@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import androidx.navigation.Navigation
+import androidx.navigation.findNavController
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -20,15 +21,10 @@ private const val ARG_PARAM2 = "param2"
  */
 class PinFragment : Fragment() {
     // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+    private var grandTotal: Float = 0F
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
     }
 
     override fun onCreateView(
@@ -42,9 +38,20 @@ class PinFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val btnSubmitPayment = view.findViewById<Button>(R.id.btn_submit_payment)
+        val userId = PinFragmentArgs.fromBundle(requireArguments()).userId
         btnSubmitPayment.setOnClickListener {
-            Navigation.findNavController(view)
-                .navigate(R.id.action_pinFragment_to_paymentStatusFragment)
+            if (userId == "123") {
+                view.findNavController().previousBackStackEntry?.savedStateHandle?.set(
+                    "isAuth",
+                    true
+                )
+            } else {
+                view.findNavController().previousBackStackEntry?.savedStateHandle?.set(
+                    "isAuth",
+                    false
+                )
+            }
+            view.findNavController().popBackStack()
         }
     }
 
